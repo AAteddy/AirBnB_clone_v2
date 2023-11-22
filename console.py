@@ -117,61 +117,54 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def do_create(self, args):
-        """ Create an object of any class"""
-        ignored_attrs = ("id", "created_at", "updated_at", "__class__")
-        class_name = ""
-        name_pattern = r"(?P<name>(?:[a-zA-Z]|_)(?:[a-zA-Z]|\d|_)*)"
-        class_match = re.match(name_pattern, args)
-        obj_kwargs = {}
-        if class_match is not None:
-            class_name = class_match.group("name")
-            params_str = args[len(class_name) :].strip()
-            params = params_str.split(" ")
-            str_pattern = r'(?P<t_str>"([^"]|\")*")'
-            float_pattern = r"(?P<t_float>[-+]?\d+\.\d+)"
-            int_pattern = r"(?P<t_int>[-+]?\d+)"
-            param_pattern = "{}=({}|{}|{})".format(
-                name_pattern, str_pattern, float_pattern, int_pattern
-            )
-            for param in params:
-                param_match = re.fullmatch(param_pattern, param)
-                if param_match is not None:
-                    key_name = param_match.group("name")
-                    str_v = param_match.group("t_str")
-                    float_v = param_match.group("t_float")
-                    int_v = param_match.group("t_int")
-                    if float_v is not None:
-                        obj_kwargs[key_name] = float(float_v)
-                    if int_v is not None:
-                        obj_kwargs[key_name] = int(int_v)
-                    if str_v is not None:
-                        obj_kwargs[key_name] = str_v[1:-1].replace("_", " ")
+    def parse_value(self, value):
+        """cast string to float or int if possible"""
+        is_valid_value = True
+        # To be a valid string it must be of at least length 2 i.e. ""
+        # To be a valid string it must begin and end with
+        # double quoatation i.e. "sdsds"
+        if len(value) >= 2 and value[0] == '"'\
+                and value[len(value) - 1] == '"':
+            value = value[1:-1]
+            value = value.replace("_", " ")
         else:
-            class_name = args
-        if not class_name:
+            try:
+                if "." in value:
+                    value = float(value)
+                else:
+                    value = int(value)
+            except ValueError:
+                is_valid_value = False
+
+        if is_valid_value:
+            return value
+        else:
+            return None
+
+    def do_create(self, args):
+        """Create an object of any class"""
+        if not args:
             print("** class name missing **")
             return
-        elif class_name not in HBNBCommand.classes:
+        args_array = args.split()
+        class_name = args_array[0]
+        if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        if os.getenv("HBNB_TYPE_STORAGE") == "db":
-            if not hasattr(obj_kwargs, "id"):
-                obj_kwargs["id"] = str(uuid.uuid4())
-            if not hasattr(obj_kwargs, "created_at"):
-                obj_kwargs["created_at"] = str(datetime.now())
-            if not hasattr(obj_kwargs, "updated_at"):
-                obj_kwargs["updated_at"] = str(datetime.now())
-            new_instance = HBNBCommand.classes[class_name](**obj_kwargs)
-            new_instance.save()
-            print(new_instance.id)
-        else:
-            new_instance = HBNBCommand.classes[class_name]()
-            for key, value in obj_kwargs.items():
-                if key not in ignored_attrs:
+        new_instance = HBNBCommand.classes[class_name]()
+        for param_index in range(1, len(args_array)):
+            param_array = args_array[param_index].split("=")
+            if len(param_array) == 2:
+                key = param_array[0]
+                if key not in HBNBCommand.valid_keys[class_name]:
+                    continue
+                value = self.parse_value(param_array[1])
+                if value is not None:
                     setattr(new_instance, key, value)
-            new_instance.save()
-            print(new_instance.id)
+            else:
+                pass
+        new_instance.save()
+        print(new_instance.id)
 
 
     def help_create(self):
