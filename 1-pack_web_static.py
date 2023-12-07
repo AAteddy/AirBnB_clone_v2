@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """(Fabric script) Fabfile file that generates a .tgz archive from the
-   contents of the web_static folder, using the function do_pack.
+contents of the web_static folder, using the function do_pack.
 """
 import os.path
 from datetime import datetime
