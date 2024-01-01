@@ -5,10 +5,9 @@ The application listens on 0.0.0.0, port 5000.
 Routes:
     /: Displays 'Hello HBNB!'
     /hbnb: Displays 'HBNB"
-    /c/<text>: Displays “C” followed by the value of the text variable
+    /c/<text>: Displays “C” followed by the value of the variable
                (replace underscore _ symbols with a space ).
-    /python/<text>: Displays “Python”, followed by the value of the 
-                    text variable.
+    /python/<text>: Displays “Python”, followed by the value of the variable
                (replace underscore _ symbols with a space ).
                The default value of text is “is cool”.
 """
