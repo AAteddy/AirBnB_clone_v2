@@ -5,9 +5,9 @@ The application listens on 0.0.0.0, port 5000.
 Routes:
     /: Displays 'Hello HBNB!'
     /hbnb: Displays 'HBNB"
-    /c/<text>: Displays “C ” followed by the value of the text variable
+    /c/<text>: Displays “C” followed by the value of the text variable
                (replace underscore _ symbols with a space ).
-    /python/<text>: Displays “Python ”, followed by the value of the 
+    /python/<text>: Displays “Python”, followed by the value of the 
                     text variable.
                (replace underscore _ symbols with a space ).
                The default value of text is “is cool”.
@@ -20,13 +20,13 @@ app = Flask(__name__)
 
 @app.route("/", strict_slashes=False)
 def hello_hbnb():
-    """Displays 'Hello HBNB!'"""
+    """Displays 'Hello HBNB!'."""
     return "Hello HBNB!"
 
 
 @app.route("/hbnb", strict_slashes=False)
 def hbnb():
-    """Displays 'HBNB' """
+    """Displays 'HBNB'."""
     return "HBNB"
 
 
