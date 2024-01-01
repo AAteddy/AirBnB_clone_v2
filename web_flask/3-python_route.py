@@ -40,7 +40,7 @@ def c(var_text):
 @app.route("/python", strict_slashes=False)
 @app.route("/python/<var_text>", strict_slashes=False)
 def python(var_text="is cool"):
-    """Displays 'Python' followed by the variable var_text."""
+    """Display 'Python' followed by the value of var_text."""
     var_text = var_text.replace("_", " ")
     return "Python {}".format(var_text)
 
