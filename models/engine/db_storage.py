@@ -101,4 +101,4 @@ class DBStorage:
 
     def close(self):
         """doc meth"""
-        self.__session.close()
+        self.__session.remove()
