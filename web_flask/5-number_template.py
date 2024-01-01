@@ -11,6 +11,7 @@ Routes:
                (replace underscore _ symbols with a space ).
                The default value of text is “is cool”.
     /number/<n>: Displays “n is a number” only if n is an integer.
+    /number_template/<n>: Displays HTML page only if n is integer.
 """
 
 from flask import Flask
@@ -51,10 +52,11 @@ def number(is_number):
     """Displays 'is a number' only if the variable is_number is an integer."""
     return "{} is a number".format(is_number)
 
+
 @app.route("/number_template/<int:n>", strict_slashes=False)
 def number_template(n):
     """Display HTML page only if the value of 'n' is an integer."""
-    return render_template('5-number.html', n=n)
+    return render_template("5-number.html", n=n)
 
 
 if __name__ == "__main__":
