@@ -100,5 +100,5 @@ class DBStorage:
             self.__session.delete(obj)
 
     def close(self):
-        """doc meth"""
-        self.__session.remove()
+        """Close the working SQLAlchemy session."""
+        self.__session.close()
