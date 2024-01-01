@@ -7,7 +7,8 @@ Routes:
     /hbnb: Displays 'HBNB"
     /c/<text>: Displays “C ” followed by the value of the text variable
                (replace underscore _ symbols with a space ).
-    /python/<text>: Displays “Python ”, followed by the value of the text variable.
+    /python/<text>: Displays “Python ”, followed by the value of the 
+                    text variable.
                (replace underscore _ symbols with a space ).
                The default value of text is “is cool”.
 """
@@ -19,7 +20,7 @@ app = Flask(__name__)
 
 @app.route("/", strict_slashes=False)
 def hello_hbnb():
-    """Displays 'Hello HBNB!' """
+    """Displays 'Hello HBNB!'"""
     return "Hello HBNB!"
 
 
