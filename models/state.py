@@ -24,10 +24,10 @@ class State(BaseModel, Base):
         cities (sqlalchemy relationship): The State-City relationship.
     """
 
-    __tablename__ = "states"
+    __tablename__ = 'states'
     if storage_type == "db":
         name = Column(String(128), nullable=False)
-        cities = relationship("City", cascade="all,delete", backref="state")
+        cities = relationship('City', cascade="all,delete", backref="state")
     else:
         name = ""
         # DONE: for FileStorage: getter attribute cities that
